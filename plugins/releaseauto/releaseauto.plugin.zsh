@@ -5,7 +5,7 @@ function combinenag() {
 	ls nimi* | sort -Vr | while read line; do cat $line >> all_nimi.log; done
 	ls nolio_action_exe* | sort -Vr | while read line; do cat $line >> all_nolio_action_exe.log; done
 	ls nolio_all* | sort -Vr | while read line; do cat $line >> all_nolio_all.log; done
-  echo "jboss.awk nimi_all.log | less -+S" > all_combinenag.out
+  echo "jboss.awk all_nimi.log | less -+S" > all_combinenag.out
   echo "jboss.awk all_nolio_action_exe.log | less -+S" >> all_combinenag.out
   echo "jboss.awk all_nolio_all.log | less -+S" >> all_combinenag.out
   cat all_combinenag.out
@@ -21,7 +21,7 @@ function combinenes() {
   echo "jboss.awk all_active_mq_nes.log | less -+S" > all_combinenes.out
   echo "jboss.awk all_execution.log | less -+S" >> all_combinenes.out
   echo "jboss.awk all_nimi.log | less -+S" >> all_combinenes.out
-  echo "jboss.awk all_nolio_exec_all | less -+S" >> all_combinenes.out
+  echo "jboss.awk all_nolio_exec_all.log | less -+S" >> all_combinenes.out
   cat all_combinenes.out
 }
 
