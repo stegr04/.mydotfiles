@@ -43,7 +43,7 @@ Plugin 'VundleVim/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-"Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -66,8 +66,21 @@ Plugin 'https://github.com/WolfgangMehner/bash-support'
 " GJS: A quoting/parenthesizing made simple plugin
 Plugin 'tpope/vim-surround'
 
-" GJS: Installed NERDTree to get file browsing. 
+" GJS: Include bash-support-custom plugin
+Plugin 'stegr04/bash-support-custom'
 
+" GJS: Include nerdtree-custom plugin
+Plugin 'stegr04/nerdtree-custom'
+
+" GJS: Include URL for ctrlp
+Plugin 'ctrlpvim/ctrlp.vim'
+
+" GJS: Include vim-airline and vim-airline-themes
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+" GJS: Include solarized theme
+Plugin 'altercation/vim-colors-solarized'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -84,18 +97,27 @@ filetype plugin indent on    " required
 let mapleader = ","
 let maplocalleader = "\\"
 
-" Set quick edit and sourcing of .vimrc
+" Set quick edit and sourcing of .vimrc and sessions
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>sm :source ~/.mydotfiles/myzsh-files.vim
+nnoremap <leader>sc :source ~/.mydotfiles/mycase-files.vim
+nnoremap <leader>sb :source ~/.mydotfiles/mybin-files.vim
+
+nnoremap ;; :ls<cr>
 
 " set line numbers
 set nu
 
-" Always show NERDTree
-autocmd VimEnter * NERDTree
+	" Putting these into nerdtree-custom plugin to load preferences
+	" Always show NERDTree
+	" autocmd VimEnter * NERDTree
 
-" Sets NERDTree to show hidden files and folders
-let NERDTreeShowHidden=1
+	" Sets NERDTree to show hidden files and folders
+	" let NERDTreeShowHidden=1
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"nnoremap <Leader>f :NERDTreeToggle<cr>
 
 " Set wildchar, wildmenu and wildcharm to scroll through buffers and more in a
 " menu of choices - instead of cycling through 1x1. Then shortcut F10 to jump
@@ -334,3 +356,8 @@ inoremap <esc> <nop>
 " noremap <silent> <F11>  <Esc><Esc>:Tlist<CR>
 "inoremap <silent> <F11>  <Esc><Esc>:Tlist<CR>
 
+"GJS TESTING
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-h> <C-w>h
+noremap <C-l> <C-w>l

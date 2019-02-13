@@ -2,7 +2,11 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/stegr04/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
+
+# GJS: I have a feeling it will matter later. But for now I'm adding this towards the top of this file: bindkey -v
+  # I just set this bindkey above ZSH_THEME. Was right after it prior to this. It had worked okay. But i have to continually press esc key. boring...
+bindkey -v
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -10,14 +14,17 @@ export ZSH="/Users/stegr04/.oh-my-zsh"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="random"
 
-# GJS: I removed agnoster from the random candidates because I found myself not clearly realizing that I was not in my HOME dir. I like how fino puts the pwd in bright yellow and at the end of the system name. 
+# GJS: Removed agnoster from random candidates.  found myself not clearly realizing that I was not in my HOME dir. I like how fino puts the pwd in bright yellow and at the end of the system name. 
+# GJS: Removed robbyrussell from random candidates. I miss having the hostname, i saw a color change in the prompt from red to green arrow (THOUGH THIS IS THE STATUS OF THE LAST RC WHICH I JUST REALIZED I LIKED), and because I don't feel like it clearly distinguishes where previous commands ended.
 # GJS: TOPIC: ZLE mode: I currently do not have EDITOR or VISUAL set and using escape to navigate for loop lines doesn't put me into command mode. Then again I do have my escape key in VI changed to something else (jk). Not a joke...lol.
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
-ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "strug" "mira" "fino" "xiong-chiamiov" )
+
+# GJS: I LIKE MIRA FOR WHAT APPEARS TO BE THE RETURN CODE IN RED ON THE RIGHT.
+ZSH_THEME_RANDOM_CANDIDATES=( "strug" "mira" "fino" "xiong-chiamiov" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -36,7 +43,8 @@ ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "strug" "mira" "fino" "xiong-chiami
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# GJS: Uncommented so that when I rename iTerm2 tab session titles it doesn't automatically get reset. 
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"

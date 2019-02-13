@@ -18,10 +18,12 @@ function combinenes() {
   ls execution* | sort -Vr | while read line; do cat $line >> all_execution.log; done
   ls nimi* | sort -Vr | while read line; do cat $line >> all_nimi.log; done
   ls nolio_exec_all* | sort -Vr | while read line; do cat $line >> all_nolio_exec_all.log; done
+  ls nolio_perf_mon_nes* | sort -Vr | while read line; do cat $line >> all_perfmon_nes.log; done
   echo "jboss.awk all_active_mq_nes.log | less -+S" > all_combinenes.out
   echo "jboss.awk all_execution.log | less -+S" >> all_combinenes.out
   echo "jboss.awk all_nimi.log | less -+S" >> all_combinenes.out
   echo "jboss.awk all_nolio_exec_all.log | less -+S" >> all_combinenes.out
+  echo "jboss.awk all_perfmon_nes.log | less -+S" >> all_combinenes.out
   cat all_combinenes.out
 }
 
@@ -33,6 +35,7 @@ function combinenac() {
   ls nolio_requests* | sort -Vr | while read line; do cat $line >> all_nolio_requests.log; done
   ls active_mq_nac* | sort -Vr | while read line; do cat $line >> all_active_mq_nac.log; done
   ls statuses_report* | sort -Vr | while read line; do cat $line >> all_statuses_report.log; done
+  ls nolio_perf_mon_nac* | sort -Vr | while read line; do cat $line >> all_perfmon_nac.log; done
 
   echo "jboss.awk all_nolio_dm_all.log | less -+S" > all_combinenac.out
   echo "jboss.awk all_nolio_export.log | less -+S" >> all_combinenac.out
@@ -40,6 +43,7 @@ function combinenac() {
   echo "jboss.awk all_nolio_requests.log | less -+S" >> all_combinenac.out
   echo "jboss.awk all_active_mq_nac.log | less -+S" >> all_combinenac.out
   echo "jboss.awk all_statuses_report.log | less -+S" >> all_combinenac.out
+  echo "jboss.awk all_perfmon_nac.log | less -+S" >> all_combinenac.out
   cat all_combinenac.out
 }
 
