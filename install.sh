@@ -5,7 +5,7 @@
 #
 #         USAGE: ./install.sh
 #
-#   DESCRIPTION:  If different (plugins/zsh/.zshrc & ~/.zshrc), offer to open/view differences, backup existing .zshrc and replace plugins/zsh/.zshrc to ~/.zshrc
+#   DESCRIPTION:  If different (SCRIPT_DIR/.zshrc & ~/.zshrc), offer to open/view differences, backup existing .zshrc and replace plugins/zsh/.zshrc to ~/.zshrc
 #
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
@@ -19,23 +19,35 @@
 
 #set -o nounset                                  # Treat unset variables as an error
 
-SCRIPT_DIR=$(dirname $0)
+SCRIPT_DIR="$(dirname $0)/plugins/myzsh"
 
-if ! cmp -s ${SCRIPT_DIR}/plugins/zsh/.zshrc ${HOME}/.zshrc; then {
-        echo "Files different!"
-        read -r -p "Do you want to vimdiff the files? " confirmation
-        if [ "$confirmation" != y ] && [ "$confirmation" != Y ]; then {
-          : # Do nothing
-        } else {
+if [ -f ${HOME}/.zshrc ]; then {
+
+  if ! cmp -s ${SCRIPT_DIR}/.zshrc ${HOME}/.zshrc; then {
+        echo "Differences detected: ${SCRIPT_DIR}/.zshrc ${HOME}/.zshrc"
+	printf '%s ' 'Do you want to vimdiff the files? '
+        read confirmation
+        if [ "$confirmation" = y ] || [ "$confirmation" = Y ]; then {
           echo "Running vimdiff"
-          vimdiff ${SCRIPT_DIR}/plugins/zsh/.zshrc ~/.zshrc
+          vimdiff ${SCRIPT_DIR}/.zshrc ~/.zshrc
         }
         fi
-        echo "Copying ${HOME}/.zshrc to ${HOME}/.zshrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')"
-        cp ${HOME}/.zshrc ${HOME}/.zshrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
 
-        echo "Overwriting ${HOME}/.zshrc with ${SCRIPT_DIR}/plugins/zsh/.zshrc"
-        cp ${SCRIPT_DIR}/plugins/zsh/.zshrc ${HOME}/.zshrc
+	# So that I don't accidently lose change made to ~/.zshrc
+        printf '%s ' "Do you want to overwrite ${HOME}/.zshrc with ${SCRIPT_DIR}/.zshrc? "
+	read confirmation
+	if [ "$confirmation" = y ] || [ "$confirmation" = Y ]; then {
+		echo "Copying ${HOME}/.zshrc to ${HOME}/.zshrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')"
+        	cp ${HOME}/.zshrc ${HOME}/.zshrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
+
+        	echo "Overwriting ${HOME}/.zshrc with ${SCRIPT_DIR}/.zshrc"
+        	cp ${SCRIPT_DIR}/.zshrc ${HOME}/.zshrc
+	}
+	fi
+  }
+  fi
+} else {
+  cp ${SCRIPT_DIR}/.zshrc ${HOME}/.zshrc
 }
 fi
 

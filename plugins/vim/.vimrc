@@ -57,20 +57,16 @@ Plugin 'tpope/vim-fugitive'
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
-" GJS: A tree explorer plugin for vim
+" GJS: Tree explorer plugin for vim & user preferences plugin
 Plugin 'scrooloose/nerdtree'
+Plugin 'stegr04/nerdtree-custom'
 
-" GJS: I like this plugin for its auto insert of strutures.
+" GJS: Cool auto insert of strutures + custom auto insert preferences
 Plugin 'https://github.com/WolfgangMehner/bash-support'
+Plugin 'stegr04/bash-support-custom'
 
 " GJS: A quoting/parenthesizing made vimple plugin
 Plugin 'tpope/vim-surround'
-
-" GJS: Include bash-support-custom plugin
-Plugin 'stegr04/bash-support-custom'
-
-" GJS: Include nerdtree-custom plugin
-Plugin 'stegr04/nerdtree-custom'
 
 " GJS: Include URL for ctrlp
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -79,8 +75,9 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-" GJS: Include solarized theme
+" GJS: Include solarized theme/plugin & user prefernces plugin
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'stegr04/vim-colors-solarized-custom'
 
 " GJS: vim-bufferline for including buffer numbers/names in status bar.
 Plugin 'bling/vim-bufferline'
@@ -92,18 +89,10 @@ filetype plugin indent on    " required
 "filetype plugin on
 " GJS: END VUNDLE SETUP
 
-" GJS: Set vim-colors-solarized settings
-syntax enable
-set background=light
-" couldn't get this working but like the idea of seeing spaces.
-let g:soliarized_visibility = "high"
-colorscheme solarized
-call togglebg#map("<F5>")
-
 
 " GJS: Testing airline settings
 "let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 " GJS: BEGIN My Preferences
 
@@ -377,9 +366,3 @@ noremap <C-k> <C-w>k
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 
-"GJS TESTING COLORSCHEMES. REQUIRED: when using solarized colorscheme with
-"light background it makes vimdiff unusable without going blind.
-if &diff
-    "set background=light
-    colorscheme desert 
-endif
