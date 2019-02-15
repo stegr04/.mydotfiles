@@ -63,7 +63,7 @@ Plugin 'scrooloose/nerdtree'
 " GJS: I like this plugin for its auto insert of strutures.
 Plugin 'https://github.com/WolfgangMehner/bash-support'
 
-" GJS: A quoting/parenthesizing made simple plugin
+" GJS: A quoting/parenthesizing made vimple plugin
 Plugin 'tpope/vim-surround'
 
 " GJS: Include bash-support-custom plugin
@@ -82,6 +82,9 @@ Plugin 'vim-airline/vim-airline-themes'
 " GJS: Include solarized theme
 Plugin 'altercation/vim-colors-solarized'
 
+" GJS: vim-bufferline for including buffer numbers/names in status bar.
+Plugin 'bling/vim-bufferline'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -89,7 +92,18 @@ filetype plugin indent on    " required
 "filetype plugin on
 " GJS: END VUNDLE SETUP
 
+" GJS: Set vim-colors-solarized settings
+syntax enable
+set background=light
+" couldn't get this working but like the idea of seeing spaces.
+let g:soliarized_visibility = "high"
+colorscheme solarized
+call togglebg#map("<F5>")
 
+
+" GJS: Testing airline settings
+"let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 " GJS: BEGIN My Preferences
 
@@ -356,8 +370,16 @@ inoremap <esc> <nop>
 " noremap <silent> <F11>  <Esc><Esc>:Tlist<CR>
 "inoremap <silent> <F11>  <Esc><Esc>:Tlist<CR>
 
-"GJS TESTING
+"GJS TESTING: BTW.. i really like these settings to navigate windows in vim.
+"find a more permanent home for them.
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
+
+"GJS TESTING COLORSCHEMES. REQUIRED: when using solarized colorscheme with
+"light background it makes vimdiff unusable without going blind.
+if &diff
+    "set background=light
+    colorscheme desert 
+endif

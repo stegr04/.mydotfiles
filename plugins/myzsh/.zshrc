@@ -80,6 +80,7 @@ plugins=(
   docker
   releaseauto
   mybin
+  myzsh
 )
 
 source $ZSH/oh-my-zsh.sh
