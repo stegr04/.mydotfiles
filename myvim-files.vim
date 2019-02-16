@@ -39,6 +39,7 @@ nmap yss <Plug>Yssurround
 nmap yS <Plug>YSurround
 nmap ys <Plug>Ysurround
 nnoremap <SNR>98_: :=v:count ? v:count : ''
+nnoremap <SNR>86_: :=v:count ? v:count : ''
 noremap <M-Down> }
 noremap <D-Down> <C-End>
 noremap <M-Up> {
@@ -114,15 +115,14 @@ let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd 
+cd ~/
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
 argglobal
 %argdel
-$argadd ~/.zshrc
-edit ~/.vim/bundle/vim-colors-solarized-custom/plugin/vim-colors-solarized-custom.vim
+edit ~/.mydotfiles/plugins/myvim/.vimrc
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -182,7 +182,7 @@ setlocal filetype=vim
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
-setlocal foldenable
+setlocal nofoldenable
 setlocal foldexpr=0
 setlocal foldignore=#
 setlocal foldlevel=0
@@ -265,17 +265,18 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 35) / 70)
+let s:l = 106 - ((66 * winheight(0) + 35) / 70)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+106
+normal! 018|
 tabnext 1
-badd +1 ~/.zshrc
+badd +0 ~/.mydotfiles/plugins/myvim/.vimrc
+badd +1 ~/.vim/bundle/vim-colors-solarized-custom/plugin/vim-colors-solarized-custom.vim
 badd +1 ~/.vim/bundle/bash-support-custom/plugin/bash-support-custom.vim
 badd +1 ~/.vim/bundle/nerdtree-custom/plugin/nerdtree-custom.vim
-badd +0 ~/.vim/bundle/vim-colors-solarized-custom/plugin/vim-colors-solarized-custom.vim
+badd +1 ~/.vimrc
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif

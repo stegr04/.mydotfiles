@@ -76,11 +76,12 @@ ZSH_CUSTOM=${HOME}/.mydotfiles
 plugins=(
   git
   vundle
-  vim
+  myvim
   docker
   releaseauto
   mybin
   myzsh
+  mygit
 )
 
 source $ZSH/oh-my-zsh.sh
