@@ -103,9 +103,9 @@ let maplocalleader = "\\"
 " Set quick edit and sourcing of .vimrc and sessions
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <leader>sm :source ~/.mydotfiles/myzsh-files.vim
-nnoremap <leader>sc :source ~/.mydotfiles/mycase-files.vim
-nnoremap <leader>sb :source ~/.mydotfiles/mybin-files.vim
+nnoremap <leader>ep :source ~/.mydotfiles/omz-plugins.vim
+nnoremap <leader>eb :source ~/.mydotfiles/mybin-files.vim
+nnoremap <leader>ec :source ~/.mydotfiles/mycase-files.vim
 
 nnoremap ;; :ls<cr>
 

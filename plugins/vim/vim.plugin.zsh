@@ -59,4 +59,18 @@ fi
 
 
 # HANDLE CREATING .vim/bundle FOLDER AND GET VUNDLE
-
+if [ ! -d ${HOME}/.vim ]; then {
+  printf '%s ' 'No .vim folder found. Create it and try to git clone Vundle? '
+  read confirmation
+  if [ "$confirmation" = y ] || [ "$confirmation" = Y ]; then {
+    mkdir -p ${HOME}/.vim/bundle
+    if git --version; then {
+      git clone https://github.com/VundleVim/Vundle.vim.git ${HOME}/.vim/bundle/Vundle.vim
+    } else {
+      echo "git --version command returned rc greater than 0. Check to make sure git is installed."
+    }
+    fi
+  }
+  fi
+}
+fi

@@ -1,0 +1,6 @@
+# Vim temporary files ending with ~
+*~
+
+# Vim temporary swp and swo files.
+*.swp
+*.swo
