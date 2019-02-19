@@ -24,3 +24,10 @@ cdr() {
 	cd ~/opt/ReleaseAutomationAnalysis
 }
 
+cdc() {
+	cd ~/cases
+}
+
+cdm() {
+	cd ~/.mydotfiles
+}
