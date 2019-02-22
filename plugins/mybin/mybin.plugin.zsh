@@ -19,6 +19,10 @@ cdb() {
 	cd ~/bin
 }
 
+cdbc() {
+	cd ~/bin/commands
+}
+
 # SECTION TO ASSIST WITH NAVIGATING rel
 cdr() {
 	cd ~/opt/ReleaseAutomationAnalysis
@@ -31,3 +35,5 @@ cdc() {
 cdm() {
 	cd ~/.mydotfiles
 }
+
+

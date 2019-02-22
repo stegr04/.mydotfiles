@@ -82,6 +82,9 @@ Plugin 'stegr04/vim-colors-solarized-custom'
 " GJS: vim-bufferline for including buffer numbers/names in status bar.
 Plugin 'bling/vim-bufferline'
 
+" GJS: supertab for autocomplete
+Plugin 'ervandew/supertab'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -103,7 +106,7 @@ let maplocalleader = "\\"
 " Set quick edit and sourcing of .vimrc and sessions
 nnoremap <leader>ev :source ~/.mydotfiles/myvim-files.vim<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <leader>ez :source ~/.mydotfiles/myzsh-plugins.vim
+nnoremap <leader>ez :source ~/.mydotfiles/myzsh-files.vim
 nnoremap <leader>eb :source ~/.mydotfiles/mybin-files.vim
 nnoremap <leader>ec :source ~/.mydotfiles/mycase-files.vim
 
@@ -111,16 +114,6 @@ nnoremap ;; :ls<cr>
 
 " set line numbers
 set nu
-
-	" Putting these into nerdtree-custom plugin to load preferences
-	" Always show NERDTree
-	" autocmd VimEnter * NERDTree
-
-	" Sets NERDTree to show hidden files and folders
-	" let NERDTreeShowHidden=1
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-"nnoremap <Leader>f :NERDTreeToggle<cr>
 
 " Set wildchar, wildmenu and wildcharm to scroll through buffers and more in a
 " menu of choices - instead of cycling through 1x1. Then shortcut F10 to jump
@@ -133,6 +126,14 @@ nnoremap <F10> :b <C-Z>
 " Set to show the buffer number in the status line
 set laststatus=2 statusline=%02n:%<%f\ %h%m%r=%-14.(%l,%c%V%)\ %P
 
+" CTRL-Tab is next tab
+noremap <C-Tab> :<C-U>tabnext<CR>
+inoremap <C-Tab> <C-\><C-N>:tabnext<CR>
+cnoremap <C-Tab> <C-C>:tabnext<CR>
+" CTRL-SHIFT-Tab is previous tab
+noremap <C-S-Tab> :<C-U>tabprevious<CR>
+inoremap <C-S-Tab> <C-\><C-N>:tabprevious<CR>
+cnoremap <C-S-Tab> <C-C>:tabprevious<CR>
 
 " END GJS: END My Preferences 
 
