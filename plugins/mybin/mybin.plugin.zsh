@@ -10,6 +10,9 @@ GREEN=$'\e[0;32m'
 RED=$'\e[0;31m'
 DONT_KNOW=$'\e[4;32'
 
+function title {
+	echo -ne "\033]0;"$*"\007" # found this here: https://superuser.com/questions/419775/with-bash-iterm2-how-to-name-tabs
+}
 
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
 autoload -U up-line-or-beginning-search
