@@ -362,8 +362,9 @@ inoremap <esc> <nop>
 
 "GJS TESTING: BTW.. i really like these settings to navigate windows in vim.
 "find a more permanent home for them.
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-h> <C-w>h
-noremap <C-l> <C-w>l
+let g:BASH_Ctrl_j = 'off'
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 

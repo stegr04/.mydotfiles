@@ -1,5 +1,5 @@
 # Set path to include my bin folder
-export PATH=${PATH}:${HOME}/bin
+export PATH=${PATH}:${HOME}/bin:${HOME}/bin/SSL_Cert_Scripts
 
 # Added to offer colored text for pull functions. Not sure how the shell will react to these being set (since i believe these will not be available for ever terminal session that loads this plugin). 
 	# ALTERNATIVE: Keep these commented and just use the asni escape codes. See: https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -47,6 +47,10 @@ cdc() {
 
 cdm() {
 	cd ~/.mydotfiles
+}
+
+cdi() {
+	cd ~/Images
 }
 
 pullm() {

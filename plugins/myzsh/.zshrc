@@ -24,7 +24,7 @@ ZSH_THEME="random"
 # If set to an empty array, this variable will have no effect.
 
 # GJS: I LIKE MIRA FOR WHAT APPEARS TO BE THE RETURN CODE IN RED ON THE RIGHT.
-ZSH_THEME_RANDOM_CANDIDATES=( "strug" "mira" "fino" "xiong-chiamiov" )
+ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "strug" "mira" "fino" "xiong-chiamiov" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"

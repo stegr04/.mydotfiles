@@ -1,4 +1,18 @@
 
+function clear_analysis_folder() {
+	# SET ANALYSIS FOLDER/FILE
+	analysis_folder="ANALYSIS"
+	analysis_file_summary=${analysis_folder}/all_combinenac.out
+	if [ ! -d $analysis_folder ]; then {
+    	#Create directory
+    		mkdir $analysis_folder
+	} else {
+    		rm -rf ${analysis_folder}
+    		mkdir ${analysis_folder}
+	}
+	fi
+}
+
 # Functions that help gather frequently reviewed logs into one inclusive file (per file type: nimi.log, nimi.log.1, etc.. > all_nimi.log)
 function combinenag() {
   rm all_combinenag.out all_nimi.log all_nolio_action_exe.log all_nolio_all.log
@@ -28,23 +42,32 @@ function combinenes() {
 }
 
 function combinenac() {
-  rm all_combinenac.out all_nolio_dm_all.log all_nolio_export.log all_nolio_dispose.log all_nolio_requests.log all_active_mq_nac.log all_statuses_report.log
-  ls nolio_dm_all* | sort -Vr | while read line; do cat $line >> all_nolio_dm_all.log; done
-  ls nolio_export* | sort -Vr | while read line; do cat $line >> all_nolio_export.log; done
-  ls nolio_dispose* | sort -Vr | while read line; do cat $line >> all_nolio_dispose.log; done
-  ls nolio_requests* | sort -Vr | while read line; do cat $line >> all_nolio_requests.log; done
-  ls active_mq_nac* | sort -Vr | while read line; do cat $line >> all_active_mq_nac.log; done
-  ls statuses_report* | sort -Vr | while read line; do cat $line >> all_statuses_report.log; done
-  ls nolio_perf_mon_nac* | sort -Vr | while read line; do cat $line >> all_perfmon_nac.log; done
+	clear_analysis_folder
+  ls DeleteApplication* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/DeleteApplication.log; done
+  ls admin* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/admin.log; done
+  ls active_mq_nac* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/active_mq_nac.log; done
+  ls healthmonitor* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/healthmonitor.log; done
+  ls nolio_dispose* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/nolio_dispose.log; done
+  ls nolio_dm_all* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/nolio_dm_all.log; done
+  ls nolio_export* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/nolio_export.log; done
+  ls nolio_perf_mon_nac* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/nolio_perf_mon_nac.log; done
+  ls nolio_purging* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/nolio_purging.log; done
+  ls nolio_requests* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/nolio_requests.log; done
+  ls statuses_report* | grep -E -v "tar|gz|lck" | sort -Vr | while read line; do cat $line >> ${analysis_folder}/statuses_report.log; done
 
-  echo "jboss.awk all_nolio_dm_all.log | less -+S" > all_combinenac.out
-  echo "jboss.awk all_nolio_export.log | less -+S" >> all_combinenac.out
-  echo "jboss.awk all_nolio_dispose.log | less -+S" >> all_combinenac.out
-  echo "jboss.awk all_nolio_requests.log | less -+S" >> all_combinenac.out
-  echo "jboss.awk all_active_mq_nac.log | less -+S" >> all_combinenac.out
-  echo "jboss.awk all_statuses_report.log | less -+S" >> all_combinenac.out
-  echo "jboss.awk all_perfmon_nac.log | less -+S" >> all_combinenac.out
-  cat all_combinenac.out
+  echo "jboss.awk ${analysis_folder}/DeleteApplication.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/admin.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/active_mq_nac.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/healthmonitor.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/nolio_dispose.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/nolio_dm_all.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/nolio_export.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/nolio_perf_mon_nac.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/nolio_purging.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/nolio_requests.log | less -+S" >> ${analysis_file_summary}
+  echo "jboss.awk ${analysis_folder}/status_report.log | less -+S" >> ${analysis_file_summary}
+
+  cat ${analysis_file_summary}
 }
 
 function nagupgrade() {
@@ -67,5 +90,5 @@ function nagupgrade() {
 
 
 # Set path to include location of ReleaseAutomationAnalysis folder.
-export PATH=${PATH}:${HOME}/opt/ReleaseAutomationAnalysis
+export PATH=${PATH}:${HOME}/opt/ReleaseAutomationAnalysis:${HOME}/opt/ReleaseAutomationAnalysis/TroubleShooting
 
