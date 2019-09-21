@@ -4,9 +4,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
-# GJS: I have a feeling it will matter later. But for now I'm adding this towards the top of this file: bindkey -v
-  # I just set this bindkey above ZSH_THEME. Was right after it prior to this. It had worked okay. But i have to continually press esc key. boring...
-bindkey -v
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -24,7 +21,16 @@ ZSH_THEME="random"
 # If set to an empty array, this variable will have no effect.
 
 # GJS: I LIKE MIRA FOR WHAT APPEARS TO BE THE RETURN CODE IN RED ON THE RIGHT.
-ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "strug" "mira" "fino" "xiong-chiamiov" )
+#ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "strug" "mira" "fino" "xiong-chiamiov" )
+# Strug cut for not having time. 
+ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "mira" "fino" "xiong-chiamiov" )
+# fino cut for not having time. 
+ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "mira" "xiong-chiamiov" )
+# agnoster cut for not having time. 
+ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "mira" "xiong-chiamiov" )
+# mira cut for not having time. 
+ZSH_THEME_RANDOM_CANDIDATES=( "xiong-chiamiov" )
+
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -74,6 +80,7 @@ ZSH_CUSTOM=${HOME}/.mydotfiles
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  ansible
   git
   vundle
   myvim
@@ -94,11 +101,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vim'
+ else
+   export EDITOR='mvim'
+ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -114,3 +121,40 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+# GJS: I have a feeling it will matter later. But for now I'm adding this towards the top of this file: bindkey -v
+  # I just set this bindkey above ZSH_THEME. Was right after it prior to this. It had worked okay. But i have to continually press esc key. boring...
+bindkey -v
+bindkey -s jk \\e
+#
+#Easier, more vim-like editor opening
+#bindkey -M vicmd v edit-command-line
+
+# Commenting this since jk combo seems to work pretty good.
+#export KEYTIMEOUT=2
+
+# GJS: Adding this to see if it will restore my ability to search through previous commands based on parts of the command I've written. This was broken when I starting using bindkey -v
+bindkey '^j' up-line-or-beginning-search # Down
+bindkey '^k' down-line-or-beginning-search # Down
+
+#TRAPWINCH() {
+#  zle && { zle reset-prompt; zle -R }
+#}
+
+#function zle-line-init zle-keymap-select {
+    ##VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]% %{$reset_color%}"
+    #VIM_PROMPT="NORMAL"
+    ##RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(git_custom_status) $EPS1"
+    #RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(git_custom_status) $EPS1"
+    ##RPS1="${${KEYMAP/main|viins/$VIM_PROMPT}/(vicmd)/} $(git_custom_status) $EPS1"
+    ##RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(git_custom_status) $EPS1"
+    #zle reset-prompt
+#}
+
+# Added (on MAC) to resolve errors while trying to run against windows systems using ntlm or kerberos:
+# <lvntest000506.bpc.broadcom.net> ESTABLISH WINRM CONNECTION FOR USER: administrator on PORT 5985 TO lvntest000506.bpc.broadcom.net
+# objc[99547]: +[__NSPlaceholderDate initialize] may have been in progress in another thread when fork() was called.
+# objc[99547]: +[__NSPlaceholderDate initialize] may have been in progress in another thread when fork() was called. We cannot safely call it or ignore it in the fork() child process. Crashing instead. Set a breakpoint on objc_initializeAfterForkError to debug.
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+

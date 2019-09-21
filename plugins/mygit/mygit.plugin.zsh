@@ -18,6 +18,7 @@
 #===============================================================================
 
 #set -o nounset                                  # Treat unset variables as an error
+export GIT_EDITOR=vim
 
 SCRIPT_DIR="$(dirname $0)"
 

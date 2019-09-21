@@ -85,6 +85,9 @@ Plugin 'bling/vim-bufferline'
 " GJS: supertab for autocomplete
 Plugin 'ervandew/supertab'
 
+" GJS: used for editing ansible files
+Plugin 'pearofducks/ansible-vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
