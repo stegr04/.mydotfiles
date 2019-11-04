@@ -127,5 +127,4 @@ function nagupgrade() {
 export PATH=${PATH}:${HOME}/opt/ReleaseAutomationAnalysis:${HOME}/opt/ReleaseAutomationAnalysis/TroubleShooting:${HOME}/opt/ratools
 
 # Set path to include location of rs tools
-export PATH=${PATH}:${HOME}/code/logentry-rs/target/debug
-
+export PATH=${PATH}:${HOME}/code/logentry-rs/target/release

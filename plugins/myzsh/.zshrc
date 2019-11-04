@@ -89,6 +89,8 @@ plugins=(
   mybin
   myzsh
   mygit
+  support
+  pyenv
 )
 
 source $ZSH/oh-my-zsh.sh
