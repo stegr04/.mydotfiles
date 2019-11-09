@@ -133,6 +133,11 @@ bindkey -s jk \\e
 #Easier, more vim-like editor opening
 #bindkey -M vicmd v edit-command-line
 
+# Enable ESC v                                                                                                                          │2.
+autoload -U edit-command-line                                                                                                           │/tmp/tmux-1004/default:admin:
+zle -N edit-command-line                                                                                                                │1
+bindkey -M vicmd v edit-command-line
+
 # Commenting this since jk combo seems to work pretty good.
 #export KEYTIMEOUT=2
 
