@@ -91,6 +91,8 @@ plugins=(
   mygit
   support
   pyenv
+  mytmux
+  mycargo
 )
 
 source $ZSH/oh-my-zsh.sh
