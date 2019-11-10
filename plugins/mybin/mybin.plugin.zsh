@@ -1,6 +1,6 @@
 # Set path to include my bin folder
 export PATH=${PATH}:${HOME}/bin:${HOME}/bin/SSL_Cert_Scripts
-export CHRONOS_TOOLS=/Users/stegr04/opt/chronos-tools
+export CHRONOS_TOOLS=${HOME}/opt/chronos-tools
 
 # Added to offer colored text for pull functions. Not sure how the shell will react to these being set (since i believe these will not be available for ever terminal session that loads this plugin). 
 	# ALTERNATIVE: Keep these commented and just use the asni escape codes. See: https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -22,6 +22,15 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+
+# SECTION TO ASSIST WITH NAVIGATING CODE - CDD
+cdar() {
+	cd ~/.ansible/roles
+}
+
+cda() {
+	cd ~/code/ansible
+}
 
 # SECTION TO ASSIST WITH NAVIGATING CODE - CDD
 cdd() {
