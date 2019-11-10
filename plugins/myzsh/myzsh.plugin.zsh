@@ -19,6 +19,10 @@
 
 #set -o nounset                                  # Treat unset variables as an error
 
+reload() {
+	source ~/.zshrc
+}
+
 SCRIPT_DIR="$(dirname $0)"
 
 if [ -f ${HOME}/.zshrc ]; then {
