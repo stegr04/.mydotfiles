@@ -51,10 +51,6 @@ cdr() {
 	cd ~/opt/ReleaseAutomationAnalysis
 }
 
-cdc() {
-	cd ~/Box/cases
-}
-
 cdh() {
 	cd ~
 }
