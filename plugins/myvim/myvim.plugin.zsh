@@ -97,7 +97,7 @@ if [ -f ${HOME}/.vimrc ]; then {
 
   if ! cmp -s ${SCRIPT_DIR}/.vimrc ${HOME}/.vimrc; then {
 	  warn "Difference detected: ${SCRIPT_DIR}/.vimrc ${HOME}/.vimrc"
-	  if [ "$unattended" == "false" ]; then {
+	  #if [ "$unattended" == "false" ]; then {
 	  	printf '%s ' 'Do you want to vimdiff the files? ' 
 	  	read confirmation
 	  	if [ "$confirmation" != y ] && [ "$confirmation" != Y ]; then {
@@ -119,14 +119,14 @@ if [ -f ${HOME}/.vimrc ]; then {
 		  cp ${SCRIPT_DIR}/.vimrc ${HOME}/.vimrc
 	  	}
 	  	fi
-	} elif [ "$unattended" == "true" ]; then {
-		echo "Copying ${HOME}/.vimrc to  ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')"
-		  cp ${HOME}/.vimrc to  ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
-	 
-		  echo "Overwriting ${HOME}/.vimrc with ${SCRIPT_DIR}/.vimrc"
-		  cp ${SCRIPT_DIR}/.vimrc ${HOME}/.vimrc
-	}
-	fi
+	#} elif [ "$unattended" == "true" ]; then {
+	#	echo "Copying ${HOME}/.vimrc to  ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')"
+	#	  cp ${HOME}/.vimrc to  ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
+	# 
+	#	  echo "Overwriting ${HOME}/.vimrc with ${SCRIPT_DIR}/.vimrc"
+	#	  cp ${SCRIPT_DIR}/.vimrc ${HOME}/.vimrc
+	#}
+	#fi
   
   } else {
 	info "${SCRIPT_DIR}/.vimrc ${HOME}/.vimrc files were compared and are the same."

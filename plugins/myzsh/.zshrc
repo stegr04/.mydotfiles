@@ -89,10 +89,10 @@ plugins=(
   mybin
   myzsh
   mygit
-  support
   pyenv
   mytmux
   mycargo
+  myfzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -167,3 +167,5 @@ bindkey '^k' down-line-or-beginning-search # Down
 # objc[99547]: +[__NSPlaceholderDate initialize] may have been in progress in another thread when fork() was called. We cannot safely call it or ignore it in the fork() child process. Crashing instead. Set a breakpoint on objc_initializeAfterForkError to debug.
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

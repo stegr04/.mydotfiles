@@ -88,6 +88,9 @@ Plugin 'ervandew/supertab'
 " GJS: used for editing ansible files
 Plugin 'pearofducks/ansible-vim'
 
+" GJS: adding vim-plug so that I can add fzf.vim
+Plugin 'vim-plug'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -95,6 +98,19 @@ filetype plugin indent on    " required
 "filetype plugin on
 " GJS: END VUNDLE SETUP
 
+
+" GJS: Adding vim-plug and fzf
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+call plug#end()
 
 " GJS: Testing airline settings
 "let g:airline#extensions#tabline#enabled = 1
