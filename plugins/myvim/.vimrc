@@ -89,7 +89,7 @@ Plugin 'ervandew/supertab'
 Plugin 'pearofducks/ansible-vim'
 
 " GJS: adding vim-plug so that I can add fzf.vim
-Plugin 'vim-plug'
+"Plugin 'vim-plug'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -108,7 +108,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug '/usr/local/opt/fzf'
+Plug '/usr/local/bin/fzf'
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
@@ -122,8 +122,10 @@ call plug#end()
 let mapleader = ","
 let maplocalleader = "\\"
 
+" Some tips from: http://learnvimscriptthehardway.stevelosh.com/chapters/07.html
 " Set quick edit and sourcing of .vimrc and sessions
-nnoremap <leader>ev :source ~/.mydotfiles/myvim-files.vim<cr>
+"nnoremap <leader>ev :source ~/.mydotfiles/myvim-files.vim<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>ez :source ~/.mydotfiles/myzsh-files.vim
 nnoremap <leader>eb :source ~/.mydotfiles/mybin-files.vim
@@ -167,7 +169,6 @@ cnoremap <C-S-Tab> <C-C>:tabprevious<CR>
 "cd ~/tmp
 
 "set tabstop=8 softtabstop=2 expandtab shiftwidth=2 smarttab
-
 "noremap <Leader>- ddp
 "noremap <Leader>- ddP
 
@@ -387,3 +388,17 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+"GJS Adding updates for fzfFiles
+let g:fzf_command_prefix = 'Fzf'
+nnoremap <silent> <leader>o :FzfFiles<CR>
+nnoremap <silent> <leader>O :FzfFiles!<CR>
+"cnoremap <silent> <C-p> :FzfHistory:<CR>
+"cnoremap <silent> <C-_> <ESC>:FzfHistory/<CR>
+"nnoremap <silent> <leader>b  :FzfBuffers<CR>
+"nnoremap <silent> <leader>'  :FzfMarks<CR>
+"nnoremap <silent> <F1> :FzfHelptags<CR>
+"nnoremap <silent> <F1> <ESC>:FzfHelpTags<CR>
+"noremap <silent> <leader>; :FzfCommands<CR>
+"nnoremap <silent> <leader>l :FzfBLines<CR>
+"inoremap <silent> <F3> <ESC>:FzfSnippets<CR>
+set rtp+=/usr/local/opt/fzf
