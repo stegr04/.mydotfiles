@@ -88,9 +88,6 @@ Plugin 'ervandew/supertab'
 " GJS: used for editing ansible files
 Plugin 'pearofducks/ansible-vim'
 
-" GJS: adding vim-plug so that I can add fzf.vim
-"Plugin 'vim-plug'
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -108,7 +105,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug '/usr/local/bin/fzf'
+Plug '/junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
