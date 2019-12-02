@@ -93,6 +93,7 @@ plugins=(
   mytmux
   mycargo
   myfzf
+  myansible
 )
 
 source $ZSH/oh-my-zsh.sh

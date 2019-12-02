@@ -31,6 +31,7 @@ orange=$'\e[38;5;202m'
 info=$'\e[38;5;116m'    #Light blue
 debug=$'\e[38;5;260m'   #Dark Blue
 
+script_dir=$(dirname $0)
 
 ### Logging
 
@@ -77,48 +78,42 @@ function assert_cmd_available() {
 }
 
 function handle_diffs() {
+	homefile="$1"
+	pluginfile="$2"
 	  # Offer review/remediation options
-		printf '%s ' 'Do you want to vimdiff the files? ' 
-		read confirmation
-		if [ "$confirmation" != y ] && [ "$confirmation" != Y ]; then {
-			# : # Do nothing
-			printf '%s ' "Disable these notifications (good for testing for a period of time)?"
-			read confirm_disable_notification
-			if [ "${confirm_disable_notification}" != y ] && [ "${confirm_disable_notification}" != Y ]; then {
-				: # Do nothing
+		#printf '%s ' 'Do you want to vimdiff the files? ' 
+		printf '%s ' "View differences [v], Accept changes in ${homefile} [a], Restore plugin file ${pluginfile} [r] or Disable notifications [d|Enter]? "
+		read howtohandlediffs
+		# If response not equal to "yes" 
+		if [ "$howtohandlediffs" = "v" ] || [ "$howtohandlediffs" = "V" ]; then {
+			info "Running vimdiff ${homefile} ${pluginfile};"
+			vimdiff ${homefile} ${pluginfile};
+		} elif [ "$howtohandlediffs" = "a" ] || [ "$howtohandlediffs" = "A" ]; then {
+			info "Replacing ${pluginfile} with ${homefile}"
+			cp ${homefile} ${pluginfile}
+		} elif [ "$howtohandlediffs" = "r" ] || [ "$howtohandlediffs" = "R" ]; then {
+			info "Copying ${homefile}  to  ${homefile}.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')"
+			cp ${HOME}/.vimrc ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
+			info "Replacing ${homefile}  with  ${pluginfile}"
+			cp ${pluginfile} ${homefile}
+		} elif [ "$howtohandlediffs" = "d" ] || [ "$howtohandlediffs" = "D" ] || [ -z ${howtohandlediffs} ]; then {
+			printf '%s ' "How many days to disable [1|Enter]?"
+			read disable_notification_days
+			# -Z evaluates to true if variable is not set. This is saying if variable is set then do nothing since its value is caught by the read. 
+			if [ ! -z "${disable_notification_days:-}" ]; then {
+				: # Do nothing since the value is already set.
 			} else {
-				printf '%s ' "How many days to disable [1|Enter]?"
-				read disable_notification_days
-				if [ ! -z "${disable_notification_days:-}" ]; then {
-					: # Do nothing since the value is already set.
-				} else {
-					disable_notification_days=1
-					# debug "no arguments detected."
-				}
-				fi
-				# create a .remind file in the local plugin directory that this reminder is for. To be used, if present, to disable constant reminders because constant reminders are not helpful. Maybe what would be helpful is to instead offer to create a branch with the change, and write a commit message (which can be shown when a difference is detected) to remind me of what/why the change happened. 
-				echo $(date -v +${disable_notification_days}d +%s) > ${script_dir}/disable.reminder
-				echo "# $(date -v +${disable_notification_days}d +%s) = $(date -v +${disable_notification_days}d +%Y-%m-%d)" >> ${script_dir}/disable.reminder
+				disable_notification_days=1
+				# debug "no arguments detected."
 			}
 			fi
-		} else {
-			echo "Running vimdiff"
-			vimdiff ${script_dir}/.vimrc ${HOME}/.vimrc; 
+			# create a .remind file in the local plugin directory that this reminder is for. To be used, if present, to disable constant reminders because constant reminders are not helpful. Maybe what would be helpful is to instead offer to create a branch with the change, and write a commit message (which can be shown when a difference is detected) to remind me of what/why the change happened. 
+			echo $(date -v +${disable_notification_days}d +%s) > ${script_dir}/disable.reminder
+			echo "# $(date -v +${disable_notification_days}d +%s) = $(date -v +${disable_notification_days}d +%Y-%m-%d)" >> ${script_dir}/disable.reminder
 		}
-		fi
-			# So that I don't accidently lose change made to ~/.vimrc
-			printf '%s ' "Do you want to overwrite ${HOME}/.vimrc with ${script_dir}/.vimrc? "
-			read confirmation
-			if [ "$confirmation" = y ] || [ "$confirmation" = Y ]; then {
-			  echo "Copying ${HOME}/.vimrc to  ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')"
-			  cp ${HOME}/.vimrc to  ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
-		 
-			  echo "Overwriting ${HOME}/.vimrc with ${script_dir}/.vimrc"
-			  cp ${script_dir}/.vimrc ${HOME}/.vimrc
-			}
-			fi
+		fi 
 }
-script_dir=$(dirname $0)
+
 
 # HANDLE .VIMRC IF/WHEN NECESSARY
 if [ -f ${HOME}/.vimrc ]; then {
@@ -142,38 +137,21 @@ if [ -f ${HOME}/.vimrc ]; then {
 			#exit 1
 			: # Doing nothing
 		} else {
-			handle_diffs
+			handle_diffs ${HOME}/.vimrc ${script_dir}/.vimrc 
 		}
 		fi
 	} else {
-		handle_diffs
+		handle_diffs ${HOME}/.vimrc ${script_dir}/.vimrc 
 	}
 	fi
   
+	} else {
+		info "${script_dir}/.vimrc ${HOME}/.vimrc files were compared and are the same."
+	}
+	fi
 } else {
-	info "${script_dir}/.vimrc ${HOME}/.vimrc files were compared and are the same."
-}
-fi
-
-} else {
+	# $HOME/.vimrc didn't exist. Copying plugin .vimrc file to ${HOME}
   cp ${script_dir}/.vimrc ${HOME}/.vimrc
 }
 fi
 
-
-# HANDLE CREATING .vim/bundle FOLDER AND GET VUNDLE
-#if [ ! -d ${HOME}/.vim ]; then {
-#  printf '%s ' 'No .vim folder found. Create it and try to git clone Vundle? '
-#  read confirmation
-#  if [ "$confirmation" = y ] || [ "$confirmation" = Y ]; then {
-#    mkdir -p ${HOME}/.vim/bundle
-#    if git --version; then {
-#      git clone https://github.com/VundleVim/Vundle.vim.git ${HOME}/.vim/bundle/Vundle.vim
-#    } else {
-#      echo "git --version command returned rc greater than 0. Check to make sure git is installed."
-#    }
-#    fi
-#  }
-#  fi
-#}
-#fi
