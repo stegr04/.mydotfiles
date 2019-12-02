@@ -76,48 +76,8 @@ function assert_cmd_available() {
 	info "'$cmd' ok"
 }
 
-if [ ! -z "${1:-}" ]; then {
-	debug "argument detected: ${1}"
-	if [ "$1" == "--unattended" ]; then {
-		unattended=true
-	} else {
-		unattended=false
-	}
-	fi
-} else {
-	debug "no arguments detected."
-	unattended=false
-}
-fi
-
-
-script_dir=$(dirname $0)
-
-# HANDLE .VIMRC IF/WHEN NECESSARY
-if [ -f ${HOME}/.vimrc ]; then {
-
-  if ! cmp -s ${script_dir}/.vimrc ${HOME}/.vimrc; then {
-	warn "Difference detected: ${script_dir}/.vimrc ${HOME}/.vimrc"
-	# Adding a check to see if reminders should be disabled. They are distracting after making a change. And on remote machines they might be a problem - not sure yet. But just in case I'm implementing this strategy 
-	## of using a file with the disabled information specified inside of the file. This way if it needs to be permanently disabled at some point then it can be done with a -1 value inside of the file. 
-	if [ -f ${script_dir}/disable.reminder ]; then {
-		# The first ^ refers to the beginning of the line, so lines with comments starting after the first character will 
-		## not be excluded. [^#;] means any character which is not # or ;.
-		## In other words, it reports lines that start with any character other than # and ;. It's not the same as reporting the 
-		## lines that don't start with # and ; (for which you'd use grep -v '^[#;]') in that it also excludes empty lines, but 
-		## that's probably preferable in this case as I doubt you care about empty lines.
-		disable_until_date_epoch=$(grep "^[^#;]" ${script_dir}/disable.reminder)
-		#echo disable_until_date_epoch=${disable_until_date_epoch}
-		current_date_epoch=$(date +%s)
-		if [ ${current_date_epoch} -lt ${disable_until_date_epoch} ]; then {
-			# If we're here then the disable_until_date_epoch time was greater than the current epoch time which means that the disable policy is still in effect. At this time we exit the script. 
-			# I tried to use an exit 1 to exit the script. But that would cause the new shell/terminal to exit. 
-			#exit 1
-			: # Doing nothing
-		}
-		fi
-	} else {
-	  	# Offer review/remediation options
+function handle_diffs() {
+	  # Offer review/remediation options
 		printf '%s ' 'Do you want to vimdiff the files? ' 
 		read confirmation
 		if [ "$confirmation" != y ] && [ "$confirmation" != Y ]; then {
@@ -157,6 +117,36 @@ if [ -f ${HOME}/.vimrc ]; then {
 			  cp ${script_dir}/.vimrc ${HOME}/.vimrc
 			}
 			fi
+}
+script_dir=$(dirname $0)
+
+# HANDLE .VIMRC IF/WHEN NECESSARY
+if [ -f ${HOME}/.vimrc ]; then {
+
+  if ! cmp -s ${script_dir}/.vimrc ${HOME}/.vimrc; then {
+		warn "Difference detected: ${script_dir}/.vimrc ${HOME}/.vimrc"
+	# Adding a check to see if reminders should be disabled. They are distracting after making a change. And on remote machines they might be a problem - not sure yet. But just in case I'm implementing this strategy 
+	## of using a file with the disabled information specified inside of the file. This way if it needs to be permanently disabled at some point then it can be done with a -1 value inside of the file. 
+	if [ -f ${script_dir}/disable.reminder ]; then {
+		# The first ^ refers to the beginning of the line, so lines with comments starting after the first character will 
+		## not be excluded. [^#;] means any character which is not # or ;.
+		## In other words, it reports lines that start with any character other than # and ;. It's not the same as reporting the 
+		## lines that don't start with # and ; (for which you'd use grep -v '^[#;]') in that it also excludes empty lines, but 
+		## that's probably preferable in this case as I doubt you care about empty lines.
+		disable_until_date_epoch=$(grep "^[^#;]" ${script_dir}/disable.reminder)
+		#echo disable_until_date_epoch=${disable_until_date_epoch}
+		current_date_epoch=$(date +%s)
+		if [ ${current_date_epoch} -lt ${disable_until_date_epoch} ]; then {
+			# If we're here then the disable_until_date_epoch time was greater than the current epoch time which means that the disable policy is still in effect. At this time we exit the script. 
+			# I tried to use an exit 1 to exit the script. But that would cause the new shell/terminal to exit. 
+			#exit 1
+			: # Doing nothing
+		} else {
+			handle_diffs
+		}
+		fi
+	} else {
+		handle_diffs
 	}
 	fi
   
