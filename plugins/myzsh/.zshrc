@@ -94,6 +94,7 @@ plugins=(
   mycargo
   myfzf
   myansible
+  support
 )
 
 source $ZSH/oh-my-zsh.sh
