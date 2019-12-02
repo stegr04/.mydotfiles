@@ -29,7 +29,8 @@ info=$'\e[38;5;116m'    #Light blue
 debug=$'\e[38;5;260m'   #Dark Blue
 
 script_dir="$(dirname $0)"
-
+homefile=${HOME}/.zshrc
+pluginfile=${script_dir}/.zshrc
 
 ### Logging
 function prompt() {
@@ -90,8 +91,6 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 
 
 function handle_diffs() {
-	homefile="$1"
-	pluginfile="$2"
 	  # Offer review/remediation options
 		#printf '%s ' 'Do you want to vimdiff the files? ' 
 		printf '%s ' "View differences [v], Accept changes in ${homefile} [a], Restore plugin file ${pluginfile} [r] or Disable notifications [d|Enter]? "
@@ -116,7 +115,6 @@ function handle_diffs() {
 				: # Do nothing since the value is already set.
 			} else {
 				disable_notification_days=1
-				# debug "no arguments detected."
 			}
 			fi
 			# create a .remind file in the local plugin directory that this reminder is for. To be used, if present, to disable constant reminders because constant reminders are not helpful. Maybe what would be helpful is to instead offer to create a branch with the change, and write a commit message (which can be shown when a difference is detected) to remind me of what/why the change happened. 
@@ -127,10 +125,9 @@ function handle_diffs() {
 }
 
 
-if [ -f ${HOME}/.zshrc ]; then {
-
-  if ! cmp -s ${script_dir}/.zshrc ${HOME}/.zshrc; then {
-    warn "Differences detected: ${script_dir}/.zshrc ${HOME}/.zshrc"
+if [ -f ${homefile} ]; then {
+  if ! cmp -s ${pluginfile} ${homefile}; then {
+    warn "Differences detected: ${pluginfile} ${homefile}"
 
   	if [ -f ${script_dir}/disable.reminder ]; then {
       disable_until_date_epoch=$(grep "^[^#;]" ${script_dir}/disable.reminder)
@@ -141,21 +138,21 @@ if [ -f ${HOME}/.zshrc ]; then {
 			#exit 1
 			: # Doing nothing
 		} else {
-			handle_diffs ${HOME}/.zshrc ${script_dir}/.zshrc
+			handle_diffs ${homefile} ${pluginfile}
 		}
 		fi
 	} else {
     # The disable.reminder file did not exist. 
-		handle_diffs ${HOME}/.zshrc ${script_dir}/.zshrc
+		handle_diffs ${homefile} ${pluginfile}
 	}
 	fi
   
 	} else {
-		info "${HOME}/.zshrc ${script_dir}/.zshrc files were compared and are the same."
+		info "${homefile} ${pluginfile} files were compared and are the same."
 	}
 	fi
 } else {
 	# $HOME/.zshrc didn't exist. Copying plugin .vimrc file to ${HOME}
-  cp ${script_dir}/.zshrc ${HOME}/.zshrc 
+  cp ${pluginfile} ${homefile} 
 }
 fi

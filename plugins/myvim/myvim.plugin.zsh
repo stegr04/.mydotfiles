@@ -32,9 +32,10 @@ info=$'\e[38;5;116m'    #Light blue
 debug=$'\e[38;5;260m'   #Dark Blue
 
 script_dir=$(dirname $0)
+homefile=${HOME}/.vimrc
+pluginfile=${script_dir}/.vimrc
 
 ### Logging
-
 function prompt() {
 	        printf '\n%s ' "${yellow_high}PROMPT${reset} $@"
 }
@@ -78,8 +79,6 @@ function assert_cmd_available() {
 }
 
 function handle_diffs() {
-	homefile="$1"
-	pluginfile="$2"
 	  # Offer review/remediation options
 		#printf '%s ' 'Do you want to vimdiff the files? ' 
 		printf '%s ' "View differences [v], Accept changes in ${homefile} [a], Restore plugin file ${pluginfile} [r] or Disable notifications [d|Enter]? "
@@ -93,7 +92,7 @@ function handle_diffs() {
 			cp ${homefile} ${pluginfile}
 		} elif [ "$howtohandlediffs" = "r" ] || [ "$howtohandlediffs" = "R" ]; then {
 			info "Copying ${homefile}  to  ${homefile}.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')"
-			cp ${HOME}/.vimrc ${HOME}/.vimrc.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
+			cp ${homefile} ${homefile}.bak.$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
 			info "Replacing ${homefile}  with  ${pluginfile}"
 			cp ${pluginfile} ${homefile}
 		} elif [ "$howtohandlediffs" = "d" ] || [ "$howtohandlediffs" = "D" ] || [ -z ${howtohandlediffs} ]; then {
@@ -104,7 +103,6 @@ function handle_diffs() {
 				: # Do nothing since the value is already set.
 			} else {
 				disable_notification_days=1
-				# debug "no arguments detected."
 			}
 			fi
 			# create a .remind file in the local plugin directory that this reminder is for. To be used, if present, to disable constant reminders because constant reminders are not helpful. Maybe what would be helpful is to instead offer to create a branch with the change, and write a commit message (which can be shown when a difference is detected) to remind me of what/why the change happened. 
@@ -116,10 +114,10 @@ function handle_diffs() {
 
 
 # HANDLE .VIMRC IF/WHEN NECESSARY
-if [ -f ${HOME}/.vimrc ]; then {
+if [ -f ${homefile} ]; then {
 
-  if ! cmp -s ${script_dir}/.vimrc ${HOME}/.vimrc; then {
-		warn "Difference detected: ${script_dir}/.vimrc ${HOME}/.vimrc"
+  if ! cmp -s ${pluginfile} ${homefile}; then {
+		warn "Difference detected: ${pluginfile} ${homefile}"
 	# Adding a check to see if reminders should be disabled. They are distracting after making a change. And on remote machines they might be a problem - not sure yet. But just in case I'm implementing this strategy 
 	## of using a file with the disabled information specified inside of the file. This way if it needs to be permanently disabled at some point then it can be done with a -1 value inside of the file. 
 	if [ -f ${script_dir}/disable.reminder ]; then {
@@ -137,21 +135,21 @@ if [ -f ${HOME}/.vimrc ]; then {
 			#exit 1
 			: # Doing nothing
 		} else {
-			handle_diffs ${HOME}/.vimrc ${script_dir}/.vimrc 
+			handle_diffs ${homefile} ${pluginfile} 
 		}
 		fi
 	} else {
-		handle_diffs ${HOME}/.vimrc ${script_dir}/.vimrc 
+		handle_diffs ${homefile} ${pluginfile} 
 	}
 	fi
   
 	} else {
-		info "${script_dir}/.vimrc ${HOME}/.vimrc files were compared and are the same."
+		info "${pluginfile} ${homefile} files were compared and are the same."
 	}
 	fi
 } else {
 	# $HOME/.vimrc didn't exist. Copying plugin .vimrc file to ${HOME}
-  cp ${script_dir}/.vimrc ${HOME}/.vimrc
+  cp ${pluginfile} ${homefile}
 }
 fi
 
