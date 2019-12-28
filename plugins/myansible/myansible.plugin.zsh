@@ -7,4 +7,7 @@ cda() {
 	cd ~/code/ansible
 }
 
+cdam() {
+	cd ~/code/ansible-merge
+}
 
