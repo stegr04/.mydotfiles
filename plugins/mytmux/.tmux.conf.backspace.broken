@@ -1,0 +1,115 @@
+# Start an ordinary shell
+#set-option -g default-command /bin/bash
+#set-option -g default-shell /bin/bash
+
+# Set the prefix to C-b
+set   -g  prefix                C-a
+bind  C-a send-prefix
+
+# Disable the status bar
+set -g status on
+
+# Set the delay between prefix and command
+set   -s  escape                1
+
+# Set the base index for windows and panes
+set   -g  base-index            1
+setw  -g  pane-base-index       1
+
+# Set kill-session shortcut
+bind \    kill-session
+
+# Bind configuration reload to PREFIX-r
+bind  r   source-file           .tmux.conf \; display "Reloaded .tmux.conf"
+
+# Killing panes and windows
+bind  x   confirm               kill-pane
+
+# Enable pane synchronization
+bind  C-s set-window-option     synchronize-panes
+
+# Enable vi keys for visual mode
+setw  -g  mode-keys             vi
+
+# List of plugins
+set   -g  @plugin               'tmux-plugins/tpm'
+set   -g  @plugin               'tmux-plugins/tmux-sensible'
+set   -g  @plugin               'seebi/tmux-colors-solarized'
+set   -g  @plugin               'tmux-plugins/tmux-pain-control'
+set   -g  @plugin               'tmux-plugins/tmux-yank'
+set   -g  @plugin               'nhdaly/tmux-scroll-copy-mode'
+set   -g  @plugin               'nhdaly/tmux-better-mouse-mode'
+
+# GJS: I believe this conflicts with my zsh settings to ctrl hjkl through commands
+#set   -g  @plugin               'christoomey/vim-tmux-navigator'
+
+# Define horizontal split shortcuts to match vim
+bind  /   split-window -h
+bind  -   split-window -v
+bind  =   select-layout         even-vertical
+
+# Bring back clear screen under tmux prefix
+bind C-l send-keys 'C-l'
+
+# Configure mouse support
+set   -g mouse on
+
+# GJS Adding this line to help refresh tmux - helps when I've pressed Command+k. Found this tip here:
+# https://www.sitepoint.com/10-killer-tmux-tips/
+bind-key r source-file ~/.tmux.conf
+
+# Initialize TMUX plugin manager
+run '~/.tmux/plugins/tpm/tpm'
+
+
+###############################################################################
+# Server Options
+###############################################################################
+set-option -s default-terminal "tmux-256color"
+#set-option -s history-file "/home/dysbr01/.tmux_history"
+
+###############################################################################
+# Global Options
+###############################################################################
+set-environment -g COLORTERM "1"
+set-option -g history-limit "99999"
+set-option -g mouse "on"
+set-option -g status-interval "1"
+set-option -g status-right-length 90
+
+# 2016-11-09 Remove {pane_title} from status bar.
+#            Using pane-border-status instead.
+#set-option -g status-right '#(. ~/bin/tmux-status-vpn.sh)#[fg=yellow,bold]#[bg=black]#{=70:pane_title} #[fg=green,bold]#[bg=#002200]%F %T'
+set-option -g status-right '#(. ~/bin/tmux-status-vpn.sh)#[fg=green,bold]#[bg=#002200]%F %T'
+
+set-window-option -g pane-border-status top
+
+# 2016-11-09 FIX: When zooming into pane and pane-border-status is on, then pane status messages that are not zoomed are still drawn.
+#                 This seems to be a problem in tmux 2.3-1 and fixed on some later version.
+#                 For now, just disable the pane-border-status in the zoomed window.
+set-hook -g 'after-resize-pane' 'run-shell -b "[ \#{window_zoomed_flag} -eq 1 ] && TMUX_PBS=off || TMUX_PBS=top; tmux set-window-option -t :\#{window_id} pane-border-status ${TMUX_PBS}"'
+
+# GJS: Adding to handle seamless tmux/vim navigation
+# Smart pane switching with awareness of Vim splits.
+# See: https://github.com/christoomey/vim-tmux-navigator - going to try the plugin method/route
+#is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+    #| grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+#bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
+#bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
+#bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
+#bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
+#tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+#if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
+    #"bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
+#if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
+    #"bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+
+#bind-key -T copy-mode-vi 'C-h' select-pane -L
+#bind-key -T copy-mode-vi 'C-j' select-pane -D
+#bind-key -T copy-mode-vi 'C-k' select-pane -U
+#bind-key -T copy-mode-vi 'C-l' select-pane -R
+#bind-key -T copy-mode-vi 'C-\' select-pane -l
+# bind-key -n C-y select-pane -L
+# bind-key -n C-u select-pane -D
+# bind-key -n C-i select-pane -U
+# bind-key -n C-o select-pane -R
