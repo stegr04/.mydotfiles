@@ -4,6 +4,7 @@ export PATH=${PATH}:${HOME}/opt/ReleaseAutomationAnalysis:${HOME}/opt/ReleaseAut
 # Set path to include location of rs tools
 export PATH=${PATH}:${HOME}/code/logentry-rs/target/release
 
+alias raview='cd ${HOME}/opt/ReleaseAutomationAnalysis/logs; gvim'
 # SECTION TO ASSIST WITH NAVIGATING rel
 cdr() {
 	~/opt/ReleaseAutomationAnalysis
@@ -28,6 +29,7 @@ function clear_analysis_folder() {
 	}
 	fi
 }
+
 
 function generate_analysis_summary() {
   printf '\n\n%s\n' "========================" >> ${analysis_file_summary}
