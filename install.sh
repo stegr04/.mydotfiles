@@ -18,7 +18,7 @@
 #===============================================================================
 
 #set -o nounset                                  # Treat unset variables as an error
-set -eu -o pipefail
+#set -eu -o pipefail
 # SET COLOR CODES
 reset=$'\e[0m'
 yellow_high=$'\e[1;33m\e[100m'
