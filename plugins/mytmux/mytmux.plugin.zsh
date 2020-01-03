@@ -143,3 +143,6 @@ if [ -f ${homefile} ]; then {
   cp ${pluginfile} ${homefile}
 }
 fi
+
+alias tmk='tmux kill-session -t '
+alias tml='tmux ls'
