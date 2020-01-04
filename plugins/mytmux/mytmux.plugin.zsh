@@ -146,3 +146,4 @@ fi
 
 alias tmk='tmux kill-session -t '
 alias tml='tmux ls'
+alias tma='tmux attach-session -t '
