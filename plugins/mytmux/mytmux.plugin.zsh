@@ -144,6 +144,6 @@ if [ -f ${homefile} ]; then {
 }
 fi
 
-alias tmk='tmux kill-session -t '
+alias tmk='tmux kill-session -t $(tmux ls | fzf | cut -d ":" -f 1)'
 alias tml='tmux ls'
-alias tma='tmux attach-session -t '
+alias tma='tmux attach-session -t $(tmux ls | fzf | cut -d ":" -f 1)'
