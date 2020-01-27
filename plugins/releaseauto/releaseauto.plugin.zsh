@@ -1,18 +1,19 @@
 # Set path to include location of ReleaseAutomationAnalysis folder.
-export PATH=${PATH}:${HOME}/opt/ReleaseAutomationAnalysis:${HOME}/opt/ReleaseAutomationAnalysis/TroubleShooting:${HOME}/opt/ratools
+export RA_ANALYSIS_HOME="${HOME}/opt/ReleaseAutomationAnalysis"
+export PATH=${PATH}:${RA_ANALYSIS_HOME}:${RA_ANALYSIS_HOME}/TroubleShooting:${HOME}/opt/ratools
 
 # Set path to include location of rs tools
 export PATH=${PATH}:${HOME}/code/logentry-rs/target/release
 
-alias raview='cd ${HOME}/opt/ReleaseAutomationAnalysis/logs; gvim'
+alias raview='cd "${RA_ANALYSIS_HOME}/logs"; gvim'
 # SECTION TO ASSIST WITH NAVIGATING rel
 cdr() {
-	~/opt/ReleaseAutomationAnalysis
+	cd "${RA_ANALYSIS_HOME}"
 }
 
 pullr() {
 	printf '%\n' "${YELLOW}Doing a git pull of ReleaseAutomationAnalysis${RESET}"
-	cd ~/opt/ReleaseAutomationAnalysis
+	cd "${RA_ANALYSIS_HOME}"
 	git pull
 }
 
