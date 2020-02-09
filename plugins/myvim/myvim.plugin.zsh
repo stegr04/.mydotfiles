@@ -106,8 +106,23 @@ function handle_diffs() {
 			}
 			fi
 			# create a .remind file in the local plugin directory that this reminder is for. To be used, if present, to disable constant reminders because constant reminders are not helpful. Maybe what would be helpful is to instead offer to create a branch with the change, and write a commit message (which can be shown when a difference is detected) to remind me of what/why the change happened. 
-			echo $(date -v +${disable_notification_days}d +%s) > ${script_dir}/disable.reminder
-			echo "# $(date -v +${disable_notification_days}d +%s) = $(date -v +${disable_notification_days}d +%Y-%m-%d)" >> ${script_dir}/disable.reminder
+			case `uname` in
+				Darwin)
+					echo $(date -v +${disable_notification_days}d +%s) > ${script_dir}/disable.reminder
+					echo "# $(date -v +${disable_notification_days}d +%s) = $(date -v +${disable_notification_days}d +%Y-%m-%d)" >> ${script_dir}/disable.reminder
+					# commands for OS X go here
+				;;
+				# Linux)
+				# 	# commands for Linux go here
+				# ;;
+				# FreeBSD)
+				# 	# commands for FreeBSD go here
+				# ;;
+				*)
+					echo $(date -d "+${disable_notification_days} days" +%s) > ${script_dir}/disable.reminder
+					echo "# $(date -d "+${disable_notification_days} days" +%s) = $(date -d "+${disable_notification_days} days" +%Y-%m-%d)" >> ${script_dir}/disable.reminder
+
+			esac
 		}
 		fi 
 }
