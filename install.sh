@@ -87,7 +87,7 @@ if [ ! -z "${1:-}" ]; then {
 }
 fi
 
-SCRIPT_DIR="$(dirname $0)/plugins/myzsh"
+SCRIPT_DIR="${HOME}/.mydotfiles/plugins/myzsh"
 
 if [ -f ${HOME}/.zshrc ]; then {
 
