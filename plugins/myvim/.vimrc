@@ -92,6 +92,16 @@ Plugin 'pearofducks/ansible-vim'
 Plugin 'vim-plug'
 Plugin 'junegunn/fzf.vim'
 
+" GJS: used for diffing directories (like vimdiff)
+Plugin 'will133/vim-dirdiff'
+
+" GJS: incremental search improved
+Plugin 'haya14busa/is.vim'
+"Plugin 'haya14busa/incsearch.vim'
+
+" GJS: Modify * to also work with visual selections
+Plugin 'nelstrom/vim-visual-star-search'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -123,6 +133,30 @@ call plug#end()
 " Set Leaders
 let mapleader = ","
 let maplocalleader = "\\"
+
+"GJS IncSearch
+"map / <Plug>(is-forward)
+"map ? <Plug>(is-backward)
+"map g/ <Plug>(is-stay)
+"let g:is#do_default_mappings = 0
+set is
+" Press * to search for the term under the cursor or a visual selection and 
+" then press a key below to replace all instances of it in the current file.
+nnoremap <Leader>r :%s///g<Left><Left>
+nnoremap <Leader>rc :%s///gc<Left><Left><Left>
+
+" The same as above but instead of acting on the whole file it will be 
+" restricted to the previously visually selected range. You can do that by 
+" pressing *, visually selecting the range you want it to apply to and then 
+" press a key below to replace all instances of it in the current selection. 
+xnoremap <Leader>r :s///g<Left><Left>
+xnoremap <Leader>rc :s///gc<Left><Left><Left>
+"augroup vimrc-incsearch-highlight
+		  "autocmd!
+		  "autocmd CmdlineEnter /,\? :set hlsearch
+		  "autocmd CmdlineLeave /,\? :set nohlsearch
+		"augroup END
+
 
 " Some tips from: http://learnvimscriptthehardway.stevelosh.com/chapters/07.html
 " Set quick edit and sourcing of .vimrc and sessions
@@ -389,6 +423,60 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
+let g:nerd_preview_enabled = 0
+let g:preview_last_buffer  = 0
+
+function! NerdTreePreview()
+  " Only on nerdtree window
+  if (&ft ==# 'nerdtree')
+    " Get filename
+    let l:filename = substitute(getline("."), "^\\s\\+\\|\\s\\+$","","g")
+
+    " Preview if it is not a folder
+    let l:lastchar = strpart(l:filename, strlen(l:filename) - 1, 1)
+    if (l:lastchar != "/" && strpart(l:filename, 0 ,2) != "..")
+
+      let l:store_buffer_to_close = 1
+      if (bufnr(l:filename) > 0)
+        " Don't close if the buffer is already open
+        let l:store_buffer_to_close = 0
+      endif
+
+      " Do preview
+      execute "normal go"
+
+      " Close previews buffer
+      if (g:preview_last_buffer > 0)
+        execute "bwipeout " . g:preview_last_buffer
+        let g:preview_last_buffer = 0
+      endif
+
+      " Set last buffer to close it later
+      if (l:store_buffer_to_close)
+        let g:preview_last_buffer = bufnr(l:filename)
+      endif
+    endif
+  elseif (g:preview_last_buffer > 0)
+    " Close last previewed buffer
+    let g:preview_last_buffer = 0
+  endif
+endfunction
+
+function! NerdPreviewToggle()
+  if (g:nerd_preview_enabled)
+    let g:nerd_preview_enabled = 0
+    augroup nerdpreview
+      autocmd!
+      augroup END
+  else
+    let g:nerd_preview_enabled = 1
+    augroup nerdpreview
+      autocmd!
+      autocmd CursorMoved * nested call NerdTreePreview()
+    augroup END
+  endif
+endfunction
 
 "GJS Adding updates for fzfFiles
 let g:fzf_command_prefix = 'Fzf'
