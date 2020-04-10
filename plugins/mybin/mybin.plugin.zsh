@@ -48,4 +48,8 @@ pullb() {
 	git pull
 }
 
+clearLess() {
+	rm ${HOME}/.lesshst
+}
+
 

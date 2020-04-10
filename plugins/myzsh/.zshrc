@@ -85,7 +85,7 @@ plugins=(
   vundle
   myvim
   docker
-  releaseauto
+  nolioos
   mybin
   myzsh
   mygit
@@ -171,3 +171,4 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(pyenv virtualenv-init -)"
