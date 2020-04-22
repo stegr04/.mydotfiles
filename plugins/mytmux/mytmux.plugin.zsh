@@ -126,8 +126,11 @@ function handle_diffs() {
 }
 
 
-# HANDLE .TMUX.CONF IF/WHEN NECESSARY
-if [ -f ${homefile} ]; then {
+
+# This next line (export ...) should be commented out if you do not want to manage this file and get prompted on how to handle changes between this plugin's managedFile and the file used at runtime by the program.  
+# For more information see "Feture: Manging files" in the README.md. 
+export CHECK_MYTMUXC=anything
+if [ -f ${homefile} ] && [ ! -z ${CHECK_MYTMUXC} ]; then {
   if ! cmp -s ${pluginfile} ${homefile}; then {
     warn "Differences detected: ${pluginfile} ${homefile}"
 
@@ -154,8 +157,17 @@ if [ -f ${homefile} ]; then {
 	}
 	fi
 } else {
-	# $HOME/.zshrc didn't exist. Copying plugin .vimrc file to ${HOME}
-  cp ${pluginfile} ${homefile}
+	if [ -f ${homefile} ]; then {
+		backup_file_suffix=$(date +%Y-%m-%d_%H:%M:%S | sed 's/\(\.[0-9][0-9][0-9]\)[0-9]*$/\1/' | sed -E 's/((\s)|(:))/./g')
+		info "Backing up ${homefile}  to  ${homefile}.bak.${backup_file_suffix}"
+		cp ${homefile} ${homefile}.bak.${backup_file_suffix}
+		info "Replacing ${homefile}  with  ${pluginfile}"
+		cp ${pluginfile} ${homefile}
+	} else {
+		# $HOME/.zshrc didn't exist. Copying plugin .zshrc file to ${HOME}
+  	cp ${pluginfile} ${homefile} 
+	}
+	fi
 }
 fi
 
