@@ -31,7 +31,8 @@ ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "mira" "xiong-chiamiov" )
 ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "mira" "xiong-chiamiov" )
 # mira cut for not having time. 
 ZSH_THEME_RANDOM_CANDIDATES=( "xiong-chiamiov" )
-
+# liking agnoster more now that I'm doing more with git. interested in checkout out https://github.com/romkatv/powerlevel10k - for its ability to show how many commits ahead/behind it is, # of untracked and unstaged changes. 
+ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
